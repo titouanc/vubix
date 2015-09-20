@@ -1,5 +1,7 @@
 # VUBIX
 
+![screenshot](screenshot.png)
+
 ## What's this ?
 
 Just try to pronounce the concatenation of `VUB` and `ICS`. You got it.
