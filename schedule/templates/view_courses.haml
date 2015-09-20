@@ -6,7 +6,9 @@
         %a{'href': '#course-#{course.id}-content', 'data-toggle': 'collapse', 'data-id': '#course-#{course.id}-content'}
           .panel-heading
             .row
-              .col-xs-8
+              .col-xs-1{'style': 'font-size: 75px'}
+                %i.glyphicon.glyphicon-education.glyphicon-large
+              .col-xs-7
                 %h3= course.name
                 %h4 #{course.kind} - Faculty #{course.faculty}
               .col-xs-4
@@ -20,11 +22,15 @@
           %ul.list-group.panel-body
             - for sched in course.schedules
               %li.list-group-item
-                = sched.start_time
-                to
-                = sched.end_time
-                at
-                = sched.location
+                %ul
+                  %li
+                    %i.glyphicon.glyphicon-time
+                    = sched.start_time
+                    to
+                    = sched.end_time
+                  %li
+                    %i.glyphicon.glyphicon-blackboard
+                    = sched.location
           .panel-footer
             .label.label-danger
               #{course.err_count} missing dates

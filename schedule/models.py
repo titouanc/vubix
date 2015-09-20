@@ -23,7 +23,10 @@ class Course(models.Model):
 
     @property
     def next_schedule(self):
-        return self.schedule_set.order_by('end_time')[0]
+        try:
+            return self.schedule_set.order_by('end_time')[0]
+        except:
+            return None
 
 
 class Schedule(models.Model):

@@ -26,6 +26,8 @@
           %ul.nav.navbar-nav
             %li
               %a{'href': '{% url "create_selection" %}'} Create my selection
+            %li
+              %a{'href': '{% url "all_courses" %}'} All courses
             - for name, href in extra_menu
               %li
                 %a{'href': "#{href}"}= name
