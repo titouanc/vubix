@@ -1,0 +1,12 @@
+- extends "base.haml"
+- block content
+  %p Type a course name to select it
+  %form{'method': "post", 'action': '{% url "create_selection" %}'}
+    {% csrf_token %}
+    = form.as_p
+    %input{'type': 'submit'}
+
+  :javascript
+    $('document').ready(function(){
+      $('#id_courses').select2();
+    });

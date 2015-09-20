@@ -1,0 +1,5 @@
+requests
+django
+BeautifulSoup4
+hamlpy
+ics
