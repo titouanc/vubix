@@ -1,0 +1,25 @@
+- extends "base.haml"
+- block content
+  %h1 Selection: #{selection.name}
+  %ul.list-group
+    - for sched in schedules
+      %li.list-group-item
+        .row
+          .col-md-1.large-icon
+            %i.glyphicon.glyphicon-education
+          .col-md-11
+            %h3= sched.course
+            %h4.row
+              .label.label-primary.col-md-4.col-xs-12
+                %i.glyphicon.glyphicon-time
+                %span.moment= sched.start_time_str
+                %i.glyphicon.glyphicon-chevron-right
+                %span.moment= sched.end_time_str
+
+              .label.label-info.col-md-4.col-xs-12
+                %i.glyphicon.glyphicon-blackboard
+                = sched.location
+              
+              .label.label-default.col-md-4.col-xs-12
+                %i.glyphicon.glyphicon-user
+                = sched.professor

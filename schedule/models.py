@@ -16,7 +16,7 @@ class Course(models.Model):
 
     @property
     def schedules(self):
-        return self.schedule_set.all()
+        return self.schedule_set.order_by('start_time')
 
     def __unicode__(self):
         return self.name
@@ -37,6 +37,15 @@ class Schedule(models.Model):
     professor = models.CharField(max_length=50, default='')
 
     ordering = ['start_time']
+
+    @property
+    def start_time_str(self):
+        return self.start_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    @property
+    def end_time_str(self):
+        return self.end_time.strftime("%Y-%m-%d %H:%M:%S")
+    
 
     @property
     def course_name(self):

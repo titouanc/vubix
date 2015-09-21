@@ -3,8 +3,9 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse
 from ics import Calendar, Event
-from .models import Course, Selection
+from .models import Course, Selection, Schedule
 from .forms import SelectionForm
+from datetime import datetime, timedelta
 
 
 def schedules_to_ics(func):
@@ -37,6 +38,8 @@ def detail_for_selection(request, selection_id):
         'extra_menu': [
             ('iCal URL', reverse('selection_ics', kwargs={
                 'selection_id': selection.id})),
+            ('Edit', reverse('edit_selection', kwargs={
+                'selection_id': selection.id}))
         ]})
 
 
@@ -58,6 +61,43 @@ def create_selection(request):
         if form.is_valid():
             selection = form.save()
             return HttpResponseRedirect("/schedule/selection/%d" % selection.id)
+    form.action = reverse('create_selection', kwargs={'selection_id': selection.id})
     ctx = {'form': form, 'title': "Create my selection"}
+    ctx.update(csrf(request))
+    return render_to_response('create_selection.haml', ctx)
+
+
+def selection_planning(request, selection_id):
+    selection = get_object_or_404(Selection, pk=selection_id)
+    from_time = request.GET.get('from_time', datetime.now())
+    to_time = request.GET.get('to_time', datetime.now() + timedelta(days=7))
+    schedules = Schedule.objects.filter(
+        course__in=selection.courses.all()
+    ).order_by('start_time')
+        #start_time__ge=from_time.strftime("%Y-%m-%d %H:%M:%S"),
+        #end_time__lt=to_time.strftime("%Y-%m-%d %H:%M:%S")).order_by(
+        #    'start_time')
+    return render_to_response("planning.haml", {
+        'schedules': schedules,
+        'selection': selection,
+        'extra_menu': [
+            ('iCal URL', reverse('selection_ics', kwargs={
+                'selection_id': selection.id})),
+            ('Edit', reverse('edit_selection', kwargs={
+                'selection_id': selection.id}))
+        ]})
+
+
+def edit_selection(request, selection_id):
+    selection = get_object_or_404(Selection, pk=selection_id)
+    if request.method == 'GET':
+        form = SelectionForm(instance=selection)
+    else:
+        form = SelectionForm(request.POST)
+        if form.is_valid():
+            selection = form.save()
+            return HttpResponseRedirect("/schedule/selection/%d" % selection.id)
+    form.action = reverse('edit_selection', kwargs={'selection_id': selection.id})
+    ctx = {'form': form, 'title': "Update my selection"}
     ctx.update(csrf(request))
     return render_to_response('create_selection.haml', ctx)
