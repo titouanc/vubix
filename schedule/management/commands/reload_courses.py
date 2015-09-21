@@ -87,7 +87,6 @@ def parse_courses_page(page_content):
     soup = mksoup(page_content)
     courses = map(parse_course_header, soup.select('table.label-border-args'))
     for course, table in zip(courses, soup.select('table.spreadsheet')):
-        print course.name
         course.original_html_table = str(table)
         parse_time_table(course, table)
         course.save()
