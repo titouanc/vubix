@@ -3,6 +3,7 @@ from django.db import transaction
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+import pytz
 
 from schedule.models import Course, Schedule
 
@@ -55,10 +56,11 @@ def parse_time_table(course, table):
         if not start or not end or not day:
             course.err_count += 1
         else:
-            start_time = datetime(Y1, M1, D1, *map(int, values[2].split(':')))
+            tz = pytz.timezone('Europe/Brussels')
+            start_time = tz.localize(datetime(Y1, M1, D1, *map(int, values[2].split(':'))))
             start_time += timedelta(days=nl_days[values[1]])
 
-            end_time = datetime(Y1, M1, D1, *map(int, values[3].split(':')))
+            end_time = tz.localize(datetime(Y1, M1, D1, *map(int, values[3].split(':'))))
             end_time += timedelta(days=nl_days[values[1]])
             for week in parse_weeks(values[5]):
                 offset = timedelta(days=7*(week-1))
