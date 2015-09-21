@@ -3,3 +3,4 @@ django
 BeautifulSoup4
 hamlpy
 ics
+psycopg2
