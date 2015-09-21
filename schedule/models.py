@@ -39,6 +39,15 @@ class Schedule(models.Model):
     ordering = ['start_time']
 
     @property
+    def start_time_str(self):
+        return self.start_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    @property
+    def end_time_str(self):
+        return self.end_time.strftime("%Y-%m-%d %H:%M:%S")
+    
+
+    @property
     def course_name(self):
         return self.course.name
 

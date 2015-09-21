@@ -19,20 +19,28 @@ from .views import (
     ics_for_course,
     ics_for_selection,
     detail_for_selection,
-    create_selection)
+    create_selection,
+    edit_selection,
+    selection_planning,)
 
 urlpatterns = [
     url(r'^course$', detail_all_courses, name='all_courses'),
 
     url(r'^course/(?P<course_id>\d+)\.ics$',
         ics_for_course, name='course_ics'),
-    
+
     url(r'^selection/(?P<selection_id>\d+)\.ics$',
         ics_for_selection, name='selection_ics'),
-    
+
     url(r'^selection/(?P<selection_id>\d+)$',
         detail_for_selection, name='selection_detail'),
 
     url(r'^selection/create$',
-        create_selection, name='create_selection')
+        create_selection, name='create_selection'),
+
+    url(r'^selection/(?P<selection_id>\d+)/edit$',
+        edit_selection, name='edit_selection'),
+
+    url(r'^selection/(?P<selection_id>\d+)/planning$',
+        selection_planning, name='selection_planning'),
 ]

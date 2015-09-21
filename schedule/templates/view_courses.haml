@@ -6,14 +6,17 @@
         %a{'href': '#course-#{course.id}-content', 'data-toggle': 'collapse', 'data-id': '#course-#{course.id}-content'}
           .panel-heading
             .row
-              .col-xs-1{'style': 'font-size: 75px'}
+              .col-xs-1{'style': 'font-size: 70px'}
                 %i.glyphicon.glyphicon-education.glyphicon-large
               .col-xs-7
                 %h3= course.name
                 %h4 #{course.kind} - Faculty #{course.faculty}
               .col-xs-4
                 %h4 Next course
-                #{course.next_schedule.start_time} - #{course.next_schedule.location}
+                %i.glyphicon.glyphicon-time
+                %span.moment= course.next_schedule.start_time_str
+                %i.glyphicon.glyphicon-chevron-right
+                %span.moment= course.next_schedule.end_time_str
                 %br
                 %a.label.label-primary{'href': '{% url "course_ics" course.pk %}'}
                   %i.glyphicon.glyphicon-calendar
@@ -22,15 +25,18 @@
           %ul.list-group.panel-body
             - for sched in course.schedules
               %li.list-group-item
-                %ul
-                  %li
+                .row
+                  .col-md-6
                     %i.glyphicon.glyphicon-time
-                    = sched.start_time
-                    to
-                    = sched.end_time
-                  %li
+                    %span.moment= sched.start_time_str
+                    %i.glyphicon.glyphicon-chevron-right
+                    %span.moment= sched.end_time_str
+                  .col-md-3
                     %i.glyphicon.glyphicon-blackboard
                     = sched.location
+                  .col-md-3
+                    %i.glyphicon.glyphicon-user
+                    = sched.professor
           .panel-footer
             .label.label-danger
               #{course.err_count} missing dates
