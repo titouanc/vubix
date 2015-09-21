@@ -16,7 +16,7 @@ class Course(models.Model):
 
     @property
     def schedules(self):
-        return self.schedule_set.all()
+        return self.schedule_set.order_by('start_time')
 
     def __unicode__(self):
         return self.name
