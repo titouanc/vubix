@@ -1,5 +1,13 @@
 from django.db import models
 from itertools import chain
+from pytz import timezone
+from vubics.settings import TIME_ZONE
+
+tz = timezone(TIME_ZONE)
+
+
+def time_str(a_time):
+    return a_time.astimezone(tz).strftime("%Y-%m-%d %H:%M:%S")
 
 
 class Course(models.Model):
@@ -40,11 +48,11 @@ class Schedule(models.Model):
 
     @property
     def start_time_str(self):
-        return self.start_time.strftime("%Y-%m-%d %H:%M:%S")
+        return time_str(self.start_time)
 
     @property
     def end_time_str(self):
-        return self.end_time.strftime("%Y-%m-%d %H:%M:%S")
+        return time_str(self.end_time)
     
 
     @property
