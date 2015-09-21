@@ -84,11 +84,7 @@ WSGI_APPLICATION = 'vubics.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vubix',
-        'USER': 'vubix',
-        'PASSWORD': 'vubix',
-        'HOST': '127.0.0.1',
-        'PORT': ''
+        'NAME': 'vubix'
     }
 }
 
