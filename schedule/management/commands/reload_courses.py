@@ -32,7 +32,7 @@ def mkurl(url, params, **additional_params):
     p = dict(params)
     p.update(additional_params)
     res = url + '?' + "&".join("%s=%s" % (k, v) for k, v in p.iteritems())
-    return res.replace(' ', '+')
+    return res.replace("  ", '+').replace(' ', '+')
 
 
 def parse_weeks(weekstring):
@@ -87,6 +87,7 @@ def parse_courses_page(page_content):
     soup = mksoup(page_content)
     courses = map(parse_course_header, soup.select('table.label-border-args'))
     for course, table in zip(courses, soup.select('table.spreadsheet')):
+        print course.name
         course.original_html_table = str(table)
         parse_time_table(course, table)
         course.save()
