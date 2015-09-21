@@ -46,6 +46,10 @@ class Schedule(models.Model):
     def duration(self):
         return self.end_time - self.start_time
 
+    class Meta:
+        unique_together = (("course", "start_time", "end_time", "location"),)
+
+
 
 class Selection(models.Model):
     name = models.CharField(max_length=200)
