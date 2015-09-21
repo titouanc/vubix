@@ -61,7 +61,7 @@ def create_selection(request):
         if form.is_valid():
             selection = form.save()
             return HttpResponseRedirect("/schedule/selection/%d" % selection.id)
-    form.action = reverse('create_selection', kwargs={'selection_id': selection.id})
+    form.action = reverse('create_selection')
     ctx = {'form': form, 'title': "Create my selection"}
     ctx.update(csrf(request))
     return render_to_response('create_selection.haml', ctx)
