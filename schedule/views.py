@@ -98,3 +98,8 @@ def edit_selection(request, selection_id):
     ctx = {'form': form, 'title': "Update my selection"}
     ctx.update(csrf(request))
     return render_to_response('create_selection.haml', ctx)
+
+def list_selections(request):
+    return render_to_response("list_selections.haml", {
+        'selections': Selection.objects.all(),
+        'title': "All selections"})

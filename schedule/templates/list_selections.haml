@@ -1,0 +1,12 @@
+- extends "base.haml"
+- block content
+  .panel-group
+    - for selection in selections
+      .panel.panel-default
+        %a{'href': '{% url "selection_detail" selection.id %}'}
+          .panel-heading
+            .row
+              .col-xs-1{'style': 'font-size: 70px'}
+                %i.glyphicon.glyphicon-folder-open
+              .col-xs-7
+                %h3= selection.name

@@ -21,13 +21,16 @@ from .views import (
     detail_for_selection,
     create_selection,
     edit_selection,
-    selection_planning,)
+    selection_planning,
+    list_selections,)
 
 urlpatterns = [
     url(r'^course$', detail_all_courses, name='all_courses'),
 
     url(r'^course/(?P<course_id>\d+)\.ics$',
         ics_for_course, name='course_ics'),
+
+    url(r'^selection$', list_selections, name='list_selections'),
 
     url(r'^selection/(?P<selection_id>\d+)\.ics$',
         ics_for_selection, name='selection_ics'),
