@@ -90,13 +90,10 @@ def selection_planning(request, selection_id):
 
 def edit_selection(request, selection_id):
     selection = get_object_or_404(Selection, pk=selection_id)
-    if request.method == 'GET':
-        form = SelectionForm(instance=selection)
-    else:
-        form = SelectionForm(request.POST)
-        if form.is_valid():
-            selection = form.save()
-            return HttpResponseRedirect("/schedule/selection/%d" % selection.id)
+    form = SelectionForm(request.POST or None, instance=selection)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect("/schedule/selection/%d" % selection.id)
     form.action = reverse('edit_selection', kwargs={'selection_id': selection.id})
     ctx = {'form': form, 'title': "Update my selection"}
     ctx.update(csrf(request))
