@@ -60,7 +60,7 @@ def create_selection(request):
         form = SelectionForm(request.POST)
         if form.is_valid():
             selection = form.save()
-            return HttpResponseRedirect("/schedule/selection/%d" % selection.id)
+        return HttpResponseRedirect(reverse('selection_detail', kwargs={'selection_id': selection.id}))
     form.action = reverse('create_selection')
     ctx = {'form': form, 'title': "Create my selection"}
     ctx.update(csrf(request))
@@ -93,13 +93,13 @@ def edit_selection(request, selection_id):
     form = SelectionForm(request.POST or None, instance=selection)
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect("/schedule/selection/%d" % selection.id)
+        return HttpResponseRedirect(reverse('selection_detail', kwargs={'selection_id': selection.id}))
     form.action = reverse('edit_selection', kwargs={'selection_id': selection.id})
     ctx = {'form': form, 'title': "Update my selection"}
     ctx.update(csrf(request))
     return render_to_response('create_selection.haml', ctx)
 
-def list_selections(request):
-    return render_to_response("list_selections.haml", {
-        'selections': Selection.objects.all(),
+def all_selections(request):
+    return render_to_response("view_selections.haml", {
+        'selections': Selection.objects.all().order_by('name'),
         'title': "All selections"})

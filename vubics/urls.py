@@ -20,6 +20,6 @@ import schedule.urls
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='home.haml'), name='home'),
-    url(r'^schedule/', include(schedule.urls.urlpatterns)),
+    url(r'^', include(schedule.urls.urlpatterns)),
     url(r'^admin/', include(admin.site.urls)),
 ]

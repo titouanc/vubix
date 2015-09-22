@@ -22,7 +22,7 @@ from .views import (
     create_selection,
     edit_selection,
     selection_planning,
-    list_selections,)
+    all_selections,)
 
 urlpatterns = [
     url(r'^course$', detail_all_courses, name='all_courses'),
@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^course/(?P<course_id>\d+)\.ics$',
         ics_for_course, name='course_ics'),
 
-    url(r'^selection$', list_selections, name='list_selections'),
+    url(r'^selection$', all_selections, name='all_selections'),
 
     url(r'^selection/(?P<selection_id>\d+)\.ics$',
         ics_for_selection, name='selection_ics'),

@@ -30,7 +30,7 @@
             %li
               %a{'href': '{% url "create_selection" %}'} Create my selection
             %li
-              %a{'href': '{% url "list_selections" %}'} List all selections
+              %a{'href': '{% url "all_selections" %}'} List all selections
             - for name, href in extra_menu
               %li
                 %a{'href': "#{href}"}= name
