@@ -33,7 +33,7 @@ def detail_for_selection(request, selection_id):
     return render_to_response("view_courses.haml", {
         'courses': sorted(
             selection.courses.all(),
-            key=lambda c: c.next_schedule.start_time),
+            key=lambda c: "" if c.next_schedule == None else c.next_schedule.start_time),
         'title': "Selection: " + selection.name,
         'extra_menu': [
             ('iCal URL', reverse('selection_ics', kwargs={

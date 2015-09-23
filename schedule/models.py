@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone as timezone2
 from itertools import chain
 from pytz import timezone
 from vubics.settings import TIME_ZONE
@@ -32,7 +33,7 @@ class Course(models.Model):
     @property
     def next_schedule(self):
         try:
-            return self.schedule_set.order_by('end_time')[0]
+            return self.schedule_set.filter(start_time__gte=timezone2.now()).order_by('end_time')[0]
         except:
             return None
 
