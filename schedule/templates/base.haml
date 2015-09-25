@@ -27,6 +27,15 @@
           %a.navbar-brand{'href': '{% url "home" %}'} VUBIX
         #navbar.collapse.navbar-collapse
           %ul.nav.navbar-nav
+            {% if user.is_authenticated %}
+              %li
+                %a{'href': '{% url "logout" %}?next=/'} Logout
+            {% else %}
+              %li
+                %a{'href': '{% url "login" %}'} Login
+              %li
+                %a{'href': '{% url "register_user" %}'} Register
+            {% endif %}
             %li
               %a{'href': '{% url "create_selection" %}'} Create my selection
             %li

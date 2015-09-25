@@ -104,6 +104,10 @@ TIME_ZONE = 'Europe/Brussels'
 
 LOGIN_REDIRECT_URL = '/'
 
+LOGOUT_REDIRECT_URL = '/'
+
+TEMPLATE_CONTEXT_PROCESSORS="django.contrib.auth.context_processors.auth"
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
