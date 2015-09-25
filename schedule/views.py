@@ -129,3 +129,7 @@ def register_user(request):
     ctx = {'form': form, 'title': "Register"}
     ctx.update(csrf(request))
     return render(request, 'registration/login.haml', ctx)
+
+@schedules_to_ics
+def ics_for_user(request, user_id):
+    return get_object_or_404(MyUser, pk=user_id).current_selection.schedules

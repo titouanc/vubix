@@ -24,7 +24,8 @@ from .views import (
     selection_planning,
     all_selections,
     selection_user,
-    register_user,)
+    register_user,
+    ics_for_user,)
 
 urlpatterns = [
     url(r'^course$', detail_all_courses, name='all_courses'),
@@ -48,6 +49,8 @@ urlpatterns = [
 
     url(r'^selection/(?P<selection_id>\d+)/planning$',
         selection_planning, name='selection_planning'),
+
+    url(r'^selection/user/(?P<user_id>\d+)', ics_for_user, name='user_ics'),
 
     url(r'^user/', include('django.contrib.auth.urls')),
 
