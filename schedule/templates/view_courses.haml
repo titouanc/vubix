@@ -23,7 +23,7 @@
                   Course iCal
         .collapse.panel-collapse{'id': 'course-#{course.id}-content'}
           %ul.list-group.panel-body
-            - for sched in course.schedules
+            - for sched in course.upcoming_schedules
               %li.list-group-item
                 .row
                   .col-md-6

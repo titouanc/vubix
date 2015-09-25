@@ -31,9 +31,16 @@ class Course(models.Model):
         return self.name
 
     @property
+    def upcoming_schedules(self):
+        try:
+            return self.schedule_set.filter(end_time__gte=timezone2.now()).order_by('end_time')
+        except:
+            return []
+
+    @property
     def next_schedule(self):
         try:
-            return self.schedule_set.filter(start_time__gte=timezone2.now()).order_by('end_time')[0]
+            return self.upcoming_schedules[0]
         except:
             return None
 
