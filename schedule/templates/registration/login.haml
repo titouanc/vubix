@@ -1,0 +1,6 @@
+- extends "base.haml"
+- block content
+  %form.center-block{'method': "post", 'action': '#{form.action}'}
+    {% csrf_token %}
+    = form.as_p
+    %input{'type': 'submit'}

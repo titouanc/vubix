@@ -2,9 +2,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 from ics import Calendar, Event
-from .models import Course, Selection, Schedule
-from .forms import SelectionForm
+from .models import Course, Selection, Schedule, MyUser
+from .forms import SelectionForm, MyUserCreationForm
 from datetime import datetime, timedelta
 
 
@@ -103,3 +104,28 @@ def all_selections(request):
     return render_to_response("view_selections.haml", {
         'selections': Selection.objects.all().order_by('name'),
         'title': "All selections"})
+
+@login_required
+def selection_user(request):
+    uid = request.user.id
+    print uid
+    user = MyUser.objects.get(pk=uid)
+    sel = user.current_selection
+    if sel is not None:
+        return detail_for_selection(request, user.current_selection.id)
+    else:
+        return HttpResponseRedirect(reverse('all_selections'))
+
+
+def register_user(request):
+    if request.method == 'GET':
+        form = MyUserCreationForm()
+    else:
+        form = MyUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+        return HttpResponseRedirect(reverse('login'))
+    form.action = reverse('register_user')
+    ctx = {'form': form, 'title': "Register"}
+    ctx.update(csrf(request))
+    return render_to_response('registration/login.haml', ctx)

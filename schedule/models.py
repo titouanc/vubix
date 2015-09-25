@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone as timezone2
+from django.contrib.auth.models import User
 from itertools import chain
 from pytz import timezone
 from vubics.settings import TIME_ZONE
@@ -9,7 +10,6 @@ tz = timezone(TIME_ZONE)
 
 def time_str(a_time):
     return a_time.astimezone(tz).strftime("%Y-%m-%d %H:%M:%S")
-
 
 class Course(models.Model):
     name = models.CharField(max_length=250)
@@ -76,3 +76,6 @@ class Selection(models.Model):
     @property
     def schedules(self):
         return list(chain(*map(lambda c: c.schedules, self.courses.all())))
+
+class MyUser(User):
+    current_selection = models.ForeignKey(Selection, null=True)

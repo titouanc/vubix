@@ -2,11 +2,14 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
+import django.contrib.auth.models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('auth', '0006_require_contenttypes_0002'),
     ]
 
     operations = [
@@ -19,6 +22,21 @@ class Migration(migrations.Migration):
                 ('kind', models.CharField(max_length=50)),
                 ('err_count', models.IntegerField(default=0)),
                 ('original_html_table', models.TextField()),
+            ],
+        ),
+        migrations.CreateModel(
+            name='MyUser',
+            fields=[
+                ('user_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'abstract': False,
+                'verbose_name': 'user',
+                'verbose_name_plural': 'users',
+            },
+            bases=('auth.user',),
+            managers=[
+                ('objects', django.contrib.auth.models.UserManager()),
             ],
         ),
         migrations.CreateModel(
@@ -39,5 +57,14 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200)),
                 ('courses', models.ManyToManyField(to='schedule.Course')),
             ],
+        ),
+        migrations.AddField(
+            model_name='myuser',
+            name='current_selection',
+            field=models.ForeignKey(to='schedule.Selection', null=True),
+        ),
+        migrations.AlterUniqueTogether(
+            name='schedule',
+            unique_together=set([('course', 'start_time', 'end_time', 'location')]),
         ),
     ]
