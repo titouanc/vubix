@@ -27,9 +27,11 @@
           %a.navbar-brand{'href': '{% url "home" %}'} VUBIX
         #navbar.collapse.navbar-collapse
           %ul.nav.navbar-nav
-            {% if user.is_authenticated %}
+            {% if request.user.is_authenticated %}
               %li
                 %a{'href': '{% url "logout" %}?next=/'} Logout
+              %li
+                %a{'href': '{% url "selection_user" %}'} My current selection
             {% else %}
               %li
                 %a{'href': '{% url "login" %}'} Login
@@ -37,7 +39,7 @@
                 %a{'href': '{% url "register_user" %}'} Register
             {% endif %}
             %li
-              %a{'href': '{% url "create_selection" %}'} Create my selection
+              %a{'href': '{% url "create_selection" %}'} Create a selection
             %li
               %a{'href': '{% url "all_selections" %}'} List all selections
             - for name, href in extra_menu
