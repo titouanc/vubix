@@ -61,6 +61,10 @@ def create_selection(request):
         form = SelectionForm(request.POST)
         if form.is_valid():
             selection = form.save()
+            if request.user.is_authenticated():
+                user = MyUser.objects.get(pk=request.user.id)
+                user.current_selection = selection
+                user.save()
         return HttpResponseRedirect(reverse('selection_detail', kwargs={'selection_id': selection.id}))
     form.action = reverse('create_selection')
     ctx = {'form': form, 'title': "Create my selection"}
@@ -108,7 +112,6 @@ def all_selections(request):
 @login_required
 def selection_user(request):
     uid = request.user.id
-    print uid
     user = MyUser.objects.get(pk=uid)
     sel = user.current_selection
     if sel is not None:

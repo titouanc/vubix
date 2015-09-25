@@ -102,11 +102,11 @@ USE_TZ = True
 
 TIME_ZONE = 'Europe/Brussels'
 
+LOGIN_URL='login'
+
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
-
-SESSION_COOKIE_AGE = 360
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
