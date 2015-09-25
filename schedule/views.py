@@ -96,11 +96,8 @@ def selection_planning(request, selection_id):
 def edit_selection(request, selection_id):
     selection = get_object_or_404(Selection, pk=selection_id)
     form = SelectionForm(request.POST or None, instance=selection)
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse('selection_detail', kwargs={'selection_id': selection.id}))
-    form.action = reverse('edit_selection', kwargs={'selection_id': selection.id})
-    ctx = {'form': form, 'title': "Update my selection"}
+    form.action = reverse('create_selection')
+    ctx = {'form': form, 'title': "Update a selection"}
     ctx.update(csrf(request))
     return render(request, 'create_selection.haml', ctx)
 
