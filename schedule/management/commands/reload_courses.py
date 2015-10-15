@@ -52,7 +52,11 @@ def parse_time_table(course, table):
             raw_input('continue')
             continue
         values = [t.text.strip() for t in row.select('td')]
-        day, start, end = values[1], values[2], values[3]
+        name, day, start, end = values[0:4]
+        is_night_course = name.endswith('BP')
+        if is_night_course:
+            continue
+
         if not start or not end or not day:
             course.err_count += 1
         else:
