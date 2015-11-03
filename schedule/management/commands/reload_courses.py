@@ -60,19 +60,17 @@ def parse_time_table(course, table):
         if not start or not end or not day:
             course.err_count += 1
         else:
-            tz = pytz.timezone('Europe/Brussels')
-            start_time = tz.localize(datetime(Y1, M1, D1, *map(int, values[2].split(':'))))
-            start_time += timedelta(days=nl_days[values[1]])
+            start_time = datetime(Y1, M1, D1, *map(int, values[2].split(':'))) + timedelta(days=nl_days[values[1]])
+            end_time = datetime(Y1, M1, D1, *map(int, values[3].split(':'))) + timedelta(days=nl_days[values[1]])
 
-            end_time = tz.localize(datetime(Y1, M1, D1, *map(int, values[3].split(':'))))
-            end_time += timedelta(days=nl_days[values[1]])
+            tz = pytz.timezone('Europe/Brussels')
             for week in parse_weeks(values[5]):
                 offset = timedelta(days=7*(week-1))
                 try:
                     Schedule.objects.get_or_create(
                         course=course,
-                        start_time=start_time + offset,
-                        end_time=end_time + offset,
+                        start_time=tz.localize(start_time + offset),
+                        end_time=tz.localize(end_time + offset),
                         location=values[7],
                         professor=values[6])
                 except:
