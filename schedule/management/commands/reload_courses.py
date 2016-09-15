@@ -29,11 +29,12 @@ def first_week_date():
 
 Y1, M1, D1 = first_week_date()
 
-url = "http://splus.cumulus.vub.ac.be:1183/1onevenjr/studsetWE_onevenjr.html"
-form = BeautifulSoup(requests.get(url).content, "html.parser").find('form')
-weeks = [
-    (c.text.strip(), c.attrs['value'])
-    for c in form.select('select[name=weeks] option')]
+def timetable_url():
+    if Y1 % 2 == 0: # even
+        return 'http://splus.cumulus.vub.ac.be:1184/2evenjr/opleidingsonderdelen_evenjr.html'
+    else: # odd
+        return 'http://splus.cumulus.vub.ac.be:1183/1onevenjr/opleidingsonderdelen_onevenjr.html'
+
 
 
 def mkurl(url, params, **additional_params):
@@ -108,7 +109,7 @@ class Command(BaseCommand):
     requires_system_checks = True
 
     def main(self):
-        url = "http://splus.cumulus.vub.ac.be:1183/1onevenjr/opleidingsonderdelen_onevenjr.html"
+        url = timetable_url()
         form = mksoup(requests.get(url).content).find('form')
 
         action = form.attrs['action']
