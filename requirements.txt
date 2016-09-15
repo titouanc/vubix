@@ -1,5 +1,5 @@
 requests
-django
+django<1.9
 BeautifulSoup4
 hamlpy
 ics
