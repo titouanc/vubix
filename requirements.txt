@@ -5,3 +5,4 @@ hamlpy
 ics
 psycopg2
 pytz
+tqdm

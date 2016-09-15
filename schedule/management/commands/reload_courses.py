@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import pytz
+from tqdm import tqdm
 
 from schedule.models import Course, Schedule
 
@@ -118,11 +119,11 @@ class Command(BaseCommand):
         # Truncate previous schedules
         Schedule.objects.all().delete()
 
-        for option in form.select('select[name=identifier] option'):
+        for option in tqdm(form.select('select[name=identifier] option')):
             page = requests.get(
                 mkurl(action, inputs, identifier=option.text.strip()))
             parse_courses_page(page.content)
-            self.stdout.write(option.text.strip())
+            # self.stdout.write(option.text.strip())
 
     def handle(self, *args, **kwargs):
         with transaction.atomic():
