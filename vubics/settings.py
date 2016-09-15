@@ -83,8 +83,8 @@ WSGI_APPLICATION = 'vubics.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vubix'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
     }
 }
 
@@ -116,4 +116,4 @@ STATIC_URL = '/static/'
 try:
     from local_settings import *
 except:
-    pass
+    print("WARNING: No local settings file !")
