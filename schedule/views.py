@@ -9,6 +9,10 @@ from .forms import SelectionForm, MyUserCreationForm
 from datetime import datetime, timedelta
 
 
+def d2s(a_date):
+    return a_date.strftime("%Y-%m-%d %H:%M")
+
+
 def schedules_to_ics(func):
     def wrapper(*args, **kwargs):
         schedules = func(*args, **kwargs)
@@ -34,7 +38,7 @@ def detail_for_selection(request, selection_id):
     return render(request, "view_courses.haml", {
         'courses': sorted(
             selection.courses.all(),
-            key=lambda c: "" if c.next_schedule == None else c.next_schedule.start_time),
+            key=lambda c: "" if c.next_schedule == None else d2s(c.next_schedule.start_time)),
         'title': "Selection: " + selection.name,
         'extra_menu': [
             ('iCal URL', reverse('selection_ics', kwargs={
