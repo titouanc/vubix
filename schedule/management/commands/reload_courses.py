@@ -23,9 +23,10 @@ nl_days = {
 
 def first_week_date():
     calendar = requests.get('http://splus.cumulus.vub.ac.be:1184/reporting/individual?idtype=name&periods=3-27&days=1-6&template=Student+Set+Individual&objectclass=Student+Set&width=100&identifier=2+M+Computer+Science%2FArtificial+Intelligence&weeks=1-14&days0=1-6&periods=3-23&submit=check+your+timetable')
-    span = BeautifulSoup(calendar.content, 'html.parser').find('span', { 'class': 'header-6-0-3' })
-    d = datetime.strptime(span.text, '%d %b %Y')
+    span = BeautifulSoup(calendar.content, 'html.parser').find('span', { 'class': 'header-7-0-3' })
+    d = datetime.strptime(span.text, '%d/%m/%y')
     return d.year, d.month, d.day
+
 
 Y1, M1, D1 = first_week_date()
 
@@ -34,7 +35,6 @@ def timetable_url():
         return 'http://splus.cumulus.vub.ac.be:1184/2evenjr/opleidingsonderdelen_evenjr.html'
     else: # odd
         return 'http://splus.cumulus.vub.ac.be:1183/1onevenjr/opleidingsonderdelen_onevenjr.html'
-
 
 
 def mkurl(url, params, **additional_params):
@@ -51,7 +51,7 @@ def parse_weeks(weekstring):
             first, last = map(int, parts)
             for i in range(first, last+1):
                 yield int(i)
-        else:
+        elif parts[0]:
             yield int(parts[0])
 
 
