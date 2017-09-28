@@ -77,12 +77,16 @@ def parse_time_table(course, table):
             for week in parse_weeks(values[5]):
                 offset = timedelta(days=7*(week-1))
                 try:
+                    prof = values[6].title()
+                    if len(prof.split()) == 2:
+                        last, first = prof.split()
+                        prof = "%s %s" % (first, last)
                     Schedule.objects.get_or_create(
                         course=course,
                         start_time=tz.localize(start_time + offset),
                         end_time=tz.localize(end_time + offset),
                         location=values[7],
-                        professor=values[6])
+                        professor=prof)
                 except:
                     course.err_count += 1
 

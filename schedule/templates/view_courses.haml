@@ -10,6 +10,7 @@
               .col-xs-7
                 %h4=
                     %a{'href': '#course-#{course.id}-content', 'data-toggle': 'collapse', 'data-id': '#course-#{course.id}-content'}
+                        %i.glyphicon.glyphicon-chevron-down{'style': 'font-size: 0.7em'}
                         #{course.name}
                 #{course.kind.title} - Faculty #{course.faculty}
                 %br
