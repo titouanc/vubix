@@ -11,10 +11,13 @@ tz = timezone(TIME_ZONE)
 def time_str(a_time):
     return a_time.astimezone(tz).strftime("%Y-%m-%d %H:%M:%S")
 
+
 class Course(models.Model):
     name = models.CharField(max_length=250)
     faculty = models.CharField(max_length=50)
     kind = models.CharField(max_length=50)
+    vub_id = models.CharField(max_length=50)
+    credits = models.IntegerField()
     err_count = models.IntegerField(default=0)
     original_html_table = models.TextField()
 
@@ -61,7 +64,7 @@ class Schedule(models.Model):
     @property
     def end_time_str(self):
         return time_str(self.end_time)
-    
+
 
     @property
     def course_name(self):

@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import pytz
 from tqdm import tqdm
+import re
 
 from schedule.models import Course, Schedule
 
@@ -22,9 +23,9 @@ nl_days = {
 # First week start date
 
 def first_week_date():
-    calendar = requests.get('http://splus.cumulus.vub.ac.be:1184/reporting/individual?idtype=name&periods=3-27&days=1-6&template=Student+Set+Individual&objectclass=Student+Set&width=100&identifier=2+M+Computer+Science%2FArtificial+Intelligence&weeks=1-14&days0=1-6&periods=3-23&submit=check+your+timetable')
-    span = BeautifulSoup(calendar.content, 'html.parser').find('span', { 'class': 'header-7-0-3' })
-    d = datetime.strptime(span.text, '%d/%m/%y')
+    calendar = requests.get('http://splus.cumulus.vub.ac.be:1183/reporting/individual?idtype=name&periods=3-27&days=1-6&template=Student+Set+Individual&objectclass=Student+Set&width=100&identifier=1+M+Computer+Science%2FArtificial+Intelligence&weeks=1-14&days0=1-6&periods=3-23&submit=check+your+timetable')
+    span = BeautifulSoup(calendar.content, 'html.parser').find('span', { 'class': 'header-6-0-3' })
+    d = datetime.strptime(span.text.capitalize(), '%d %b %Y')
     return d.year, d.month, d.day
 
 
@@ -87,8 +88,24 @@ def parse_time_table(course, table):
 
 
 def parse_course_header(table):
+    title = table.select("span.label-1-0-0")[0].text.strip().replace('\n', ' ')
+    match = re.match(r'(.*)[ ]+(\d+)[ ]+(credits|credtis)[ ]+(\d+\w+)', title)
+    if match:
+        name, credits, _, course_id = match.groups()
+    else:
+        match = re.match(r'(.*)[ ]+(\d+)[ ]+(credits|credtis)', title)
+        if match:
+            name, credits, _ = match.groups()
+            course_id = ""
+        else:
+            name = title
+            credits = -1
+            course_id = ""
+
     course, created = Course.objects.get_or_create(
-        name=table.select("span.label-1-0-0")[0].text.strip(),
+        name=name,
+        credits=int(credits),
+        vub_id=course_id,
         kind=table.select("span.label-1-0-1")[0].text.strip().strip('()'),
         faculty=table.select("span.label-1-0-4")[0].text.strip())
     return course
