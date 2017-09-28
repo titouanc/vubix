@@ -35,10 +35,26 @@ def detail_all_courses(request):
 
 def detail_for_selection(request, selection_id):
     selection = get_object_or_404(Selection, pk=selection_id)
+
+    def key(c):
+        if c.next_schedule is None:
+            return (
+                datetime.datetime(2050, 1, 1),
+                datetime.datetime(2050, 1, 1),
+                c.name
+            )
+        return (
+            c.next_schedule.start_time,
+            c.next_schedule.end_time,
+            c.name
+        )
+    
+    courses = sorted(
+        selection.courses.all(),
+        key=key
+    )
     return render(request, "view_courses.haml", {
-        'courses': sorted(
-            selection.courses.all(),
-            key=lambda c: "" if c.next_schedule == None else d2s(c.next_schedule.start_time)),
+        'courses': courses,
         'title': "Selection: " + selection.name,
         'extra_menu': [
             ('iCal URL', reverse('selection_ics', kwargs={
