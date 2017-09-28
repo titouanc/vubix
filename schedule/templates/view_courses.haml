@@ -3,20 +3,24 @@
   .panel-group
     - for course in courses
       .panel.panel-default
-        %a{'href': '#course-#{course.id}-content', 'data-toggle': 'collapse', 'data-id': '#course-#{course.id}-content'}
           .panel-heading
             .row
               .col-xs-1{'style': 'font-size: 70px'}
                 %i.glyphicon.glyphicon-education.glyphicon-large
               .col-xs-7
-                %h3= course.name
-                %h4 #{course.kind} - Faculty #{course.faculty}
+                %h3=
+                    %a{'href': '#course-#{course.id}-content', 'data-toggle': 'collapse', 'data-id': '#course-#{course.id}-content'}
+                        #{course.name}
+                %h4 #{course.kind.title} - Faculty #{course.faculty}
+                #{course.credits} credits - #{course.vub_id}
               .col-xs-4
                 %h4 Next course
                 %i.glyphicon.glyphicon-time
                 %span.moment= course.next_schedule.start_time_str
                 %i.glyphicon.glyphicon-chevron-right
-                %span.moment= course.next_schedule.end_time_str
+                %span.shortmoment= course.next_schedule.end_time_str
+                %br
+                %br
                 %br
                 %a.label.label-primary{'href': '{% url "course_ics" course.pk %}'}
                   %i.glyphicon.glyphicon-calendar

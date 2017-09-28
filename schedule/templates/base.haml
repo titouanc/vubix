@@ -61,4 +61,9 @@
           var formated = moment(value).calendar();
           $(elem).html(formated);
         });
+        $('.shortmoment').each(function(i, elem){
+          var value = $(elem).html();
+          var formated = moment(value).format('LT');
+          $(elem).html(formated);
+        });
       });
