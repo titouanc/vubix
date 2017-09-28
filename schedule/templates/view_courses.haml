@@ -8,23 +8,23 @@
               .col-xs-1{'style': 'font-size: 70px'}
                 %i.glyphicon.glyphicon-education.glyphicon-large
               .col-xs-7
-                %h3=
+                %h4=
                     %a{'href': '#course-#{course.id}-content', 'data-toggle': 'collapse', 'data-id': '#course-#{course.id}-content'}
                         #{course.name}
-                %h4 #{course.kind.title} - Faculty #{course.faculty}
+                #{course.kind.title} - Faculty #{course.faculty}
+                %br
                 #{course.credits} credits - #{course.vub_id}
+                %a.label.label-primary{'href': '{% url "course_ics" course.pk %}'}
+                  %i.glyphicon.glyphicon-calendar
+                  iCal
               .col-xs-4
                 %h4 Next course
                 %i.glyphicon.glyphicon-time
+                %span.daymoment= course.next_schedule.start_time_str
+                %br
                 %span.moment= course.next_schedule.start_time_str
                 %i.glyphicon.glyphicon-chevron-right
                 %span.shortmoment= course.next_schedule.end_time_str
-                %br
-                %br
-                %br
-                %a.label.label-primary{'href': '{% url "course_ics" course.pk %}'}
-                  %i.glyphicon.glyphicon-calendar
-                  Course iCal
         .collapse.panel-collapse{'id': 'course-#{course.id}-content'}
           %ul.list-group.panel-body
             - for sched in course.upcoming_schedules

@@ -13,7 +13,7 @@
     %script{'src': "//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"}
     %script{'src': "https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js"}
 
-    %script{'src': "http://momentjs.com/downloads/moment.js"}
+    %script{'src': "https://momentjs.com/downloads/moment-with-locales.js"}
     :css
       body {padding-top: 50px;}
       .large-icon {font-size: 70px;}
@@ -56,9 +56,22 @@
         - block content
     :javascript
       $(document).ready(function(){
+        moment.locale('en-gb')
+        $('.daymoment').each(function(i, elem){
+          var value = $(elem).html();
+          var formated = moment(value).calendar(null, {
+                sameDay: '[Today]',
+                nextDay: '[Tomorrow]',
+                nextWeek: 'dddd',
+                lastDay: '[Yesterday]',
+                lastWeek: '[Last] dddd',
+                sameElse: 'dddd DD/MM/YYYY'
+            });
+          $(elem).html(formated);
+        });
         $('.moment').each(function(i, elem){
           var value = $(elem).html();
-          var formated = moment(value).calendar();
+          var formated = moment(value).format('LT');
           $(elem).html(formated);
         });
         $('.shortmoment').each(function(i, elem){
