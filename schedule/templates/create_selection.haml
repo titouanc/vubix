@@ -8,5 +8,8 @@
 
   :javascript
     $('document').ready(function(){
-      $('#id_courses').select2();
+        $('#id_courses').selectize({
+            delimiter: ',',
+            persist: false,
+        });
     });
